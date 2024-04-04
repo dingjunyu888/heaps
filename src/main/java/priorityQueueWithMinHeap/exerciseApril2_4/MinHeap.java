@@ -75,7 +75,10 @@ public class MinHeap {
 
         int current = size;
         // FILL IN CODE: bubble up if the value of current < value of the parent
-
+        while(heap[current] < heap[parent(current)]){
+            swap(current, parent(current));
+            current = parent(current);
+        }
     }
 
     /** Print the array that stores the heap */
@@ -105,15 +108,27 @@ public class MinHeap {
      */
     private void pushdown(int position) {
         int smallestChild;
-       // while (!isLeaf(position)) {
+        while (!isLeaf(position)) {
             // set the index of the smallest child to left child
             // if the right child exists and
             // the right child is smaller than left, smallestChild = right child
 
             //  if  the value of the smallest child is less than value of current,
             // the heap is already valid - return
-           // If not, swap the value of the smallest child with the
-        //}
+            // If not, swap the value of the smallest child with the
+            smallestChild = leftChild(position);
+            if(smallestChild + 1 <= size){
+                if(heap[smallestChild + 1] < heap[smallestChild]){
+                    smallestChild = smallestChild + 1;
+                }
+            }
+            if(heap[position] < heap[smallestChild]){
+                return;
+            }else{
+                swap(position, smallestChild);
+            }
+            position = smallestChild;
+        }
     }
 
     public static void main(String[] args) {
@@ -125,9 +140,9 @@ public class MinHeap {
         minheap.insert(0);
         minheap.print();
 
-        System.out.println();
-        System.out.println(minheap.removeMin());
-        minheap.print();
+        //System.out.println();
+        //System.out.println(minheap.removeMin());
+        //minheap.print();
     }
 
 }
